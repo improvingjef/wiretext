@@ -245,19 +245,31 @@
     return widths;
   }
 
-  function padToHeight(lines, h) {
-    const width = lines.reduce((m, l) => Math.max(m, l.length), 0);
-    const out = lines.map((l) => l.padEnd(width, " "));
+  function padToHeight(lines, h, width) {
+    const out = lines.map((l) => String(l).slice(0, width).padEnd(width, " "));
     while (out.length < h) out.push("".padEnd(width, " "));
     return out;
   }
 
-  function joinColumns(blocks) {
+  function joinColumns(blocks, widths) {
     const maxH = Math.max(...blocks.map((b) => b.length));
-    const padded = blocks.map((b) => padToHeight(b, maxH));
+    const padded = blocks.map((b, i) => padToHeight(b, maxH, widths[i]));
     const rows = [];
     for (let i = 0; i < maxH; i++) rows.push(padded.map((b) => b[i]).join("   ").replace(/\s+$/, ""));
     return rows;
+  }
+
+  function shouldFrameSection(node) {
+    if (!node.ratio) return false;
+    if (
+      node.children.length === 1 &&
+      node.children[0].type === "group" &&
+      node.children[0].children.length > 0 &&
+      node.children[0].children.every((c) => c.type === "section" && c.ratio)
+    ) {
+      return false;
+    }
+    return true;
   }
 
   function frame(inner, width) {
@@ -284,11 +296,11 @@
         const lines = trimBlank(renderAscii(c, widths[i]));
         return lines.length ? lines : [""];
       });
-      return joinColumns(blocks);
+      return joinColumns(blocks, widths);
     }
 
     if (node.type === "section") {
-      const framed = !!node.ratio;
+      const framed = shouldFrameSection(node);
       const innerW = framed ? Math.max(width - 2, 18) : Math.max(width, 18);
       const inner = trimBlank(
         node.children.flatMap((c, i) => {
