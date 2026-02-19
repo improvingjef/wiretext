@@ -196,6 +196,40 @@
       color: var(--muted);
       font-size: 14px;
     }
+    .render-demo {
+      display: grid;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .render-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      align-items: center;
+      border: 1px solid #dbe5de;
+      border-radius: 8px;
+      padding: 8px;
+      background: #fafdfb;
+    }
+    .render-code {
+      font: 12px/1.35 "SF Mono", Menlo, Consolas, monospace;
+      color: #334155;
+      background: #f1f5f9;
+      border: 1px solid #d8e1ea;
+      border-radius: 6px;
+      padding: 6px 8px;
+    }
+    .render-out input, .render-out button {
+      font: inherit;
+    }
+    .render-out .primary-btn {
+      border: 1px solid #0f766e;
+      background: #0f766e;
+      color: #f0fdfa;
+      border-radius: 7px;
+      padding: 6px 10px;
+      font-weight: 700;
+    }
 
     .steps {
       display: grid;
@@ -461,34 +495,74 @@
 
     <section id="syntax" class="section">
       <h2>Syntax Cheatsheet</h2>
-      <p class="lead">A compact subset carries most UI conversations.</p>
+      <p class="lead">Read each line as “what it renders like,” not as implementation code.</p>
+      <article class="card" style="margin-bottom:10px;">
+        <h3>Rendered HTML Examples</h3>
+        <div class="render-demo">
+          <div class="render-row">
+            <div class="render-code">^user_name</div>
+            <div class="render-out"><label>user name <input type="text" placeholder="text input" /></label></div>
+          </div>
+          <div class="render-row">
+            <div class="render-code">^password</div>
+            <div class="render-out"><label>password <input type="password" value="secret" /></label></div>
+          </div>
+          <div class="render-row">
+            <div class="render-code">[] "Accept terms"</div>
+            <div class="render-out"><label><input type="checkbox" /> Accept terms</label></div>
+          </div>
+          <div class="render-row">
+            <div class="render-code">() "Pro"</div>
+            <div class="render-out"><label><input type="radio" /> Pro</label></div>
+          </div>
+          <div class="render-row">
+            <div class="render-code">!!"Create account"</div>
+            <div class="render-out"><button class="primary-btn" type="button">Create account</button></div>
+          </div>
+        </div>
+      </article>
       <div class="syntax-grid">
         <article class="card">
-          <h3>Inputs and Actions</h3>
-<pre>^user_name
-^^ "Long notes"
-!Cancel
-!!"Create account"</pre>
+          <h3>Text Inputs</h3>
+<pre>user name: ^text
+  => label + text input
+
+^user_name
+  => shorthand for user name: ^text
+
+^password | ^email | ^phone
+  => typed inputs</pre>
         </article>
         <article class="card">
-          <h3>Choices and Links</h3>
+          <h3>Multiline and Actions</h3>
+<pre>^^ "Long notes"
+  => multiline textarea
+
+!Cancel
+  => button
+
+!!"Create account"
+  => primary button</pre>
+        </article>
+        <article class="card">
+          <h3>Choices, Links, Icons</h3>
 <pre>[] "Accept terms"
 () "Free" | () "Pro"
+
 _Help_
-i:search</pre>
+  => link
+
+i:search
+  => icon token</pre>
         </article>
         <article class="card">
-          <h3>Layout</h3>
+          <h3>Layout, Repeat, Tables</h3>
 <pre>[=aside 1/4 | =main 3/4]
-=header
-  # Title
-=main
-  ...</pre>
-        </article>
-        <article class="card">
-          <h3>Repeat and Tables</h3>
-<pre>...
+  => side-by-side regions
+
+...
   ^name | !Edit
+  => repeating row pattern
 
 | Name | Role |
 |------|------|
