@@ -290,7 +290,12 @@
     if (node.type === "section") {
       const framed = !!node.ratio;
       const innerW = framed ? Math.max(width - 2, 18) : Math.max(width, 18);
-      const inner = trimBlank(node.children.flatMap((c) => renderAscii(c, innerW)));
+      const inner = trimBlank(
+        node.children.flatMap((c, i) => {
+          const block = renderAscii(c, innerW);
+          return i === 0 ? block : ["", ...block];
+        })
+      );
       const nonEmpty = inner.length ? inner : ["(empty)"];
       return framed ? frame(nonEmpty, width) : nonEmpty;
     }

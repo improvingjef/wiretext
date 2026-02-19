@@ -60,7 +60,11 @@ defmodule WiretextAsciiRenderer.Renderer do
 
   defp render_vertical(children, width, ctx) do
     children
-    |> Enum.flat_map(&render_node(&1, width, ctx))
+    |> Enum.with_index()
+    |> Enum.flat_map(fn {child, idx} ->
+      block = render_node(child, width, ctx)
+      if idx == 0, do: block, else: [""] ++ block
+    end)
     |> trim_blank_edges()
   end
 
