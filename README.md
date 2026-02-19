@@ -3,6 +3,8 @@
 WireText is a lightweight DSL for UI intent, inspired by Markdown syntax.
 
 Inspired by Markdown, it is readable in a terminal, friendly in docs, and fast to iterate with teammates and AIs.
+This is not a 1:1 mapping for HTML. The goal is to express the intent of a screen without the rabbit hole of making it perfect. 
+In all honesty, this is barely tested, but it's been helpful working with Claude and Codex. PRs are welcome, but the goal is simplicity. 
 
 ## What is in this repo
 
