@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WireText - Intent-First UI Sketching</title>
+  <style>
+    :root {
+      --bg: #f4f6f3;
+      --bg-2: #e8efe6;
+      --panel: #ffffff;
+      --ink: #1f2a24;
+      --muted: #5f6c64;
+      --line: #d3ddd5;
+      --brand: #1d6f5c;
+      --brand-2: #2e9077;
+      --accent: #c9e97f;
+      --error: #b42318;
+      --error-bg: #fef3f2;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 0%, #e8f5d8 0, transparent 36%),
+        radial-gradient(circle at 92% 8%, #d8efe7 0, transparent 32%),
+        linear-gradient(180deg, var(--bg-2), var(--bg));
+      line-height: 1.45;
+    }
+
+    .wrap {
+      width: min(1220px, 94vw);
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(7px);
+      background: color-mix(in srgb, #f4f6f3 88%, transparent);
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+    }
+
+    .nav-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      gap: 12px;
+    }
+
+    .logo {
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .logo small {
+      font-weight: 600;
+      color: var(--muted);
+      margin-left: 8px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    .hero {
+      padding: 54px 0 30px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 26px;
+      align-items: start;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #294f42;
+      background: #dcf4ec;
+      border: 1px solid #bdd9cf;
+      border-radius: 999px;
+      padding: 4px 10px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: clamp(34px, 6vw, 62px);
+      line-height: 1.02;
+      margin: 0 0 14px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero p {
+      margin: 0;
+      color: #39453f;
+      font-size: clamp(16px, 2vw, 20px);
+      max-width: 58ch;
+    }
+
+    .hero-actions {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--ink);
+      border-radius: 10px;
+      padding: 9px 14px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .btn.primary {
+      border-color: var(--brand);
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      color: #effff8;
+    }
+
+    .hero-card {
+      background: #19241f;
+      color: #d0f2e6;
+      border-radius: 14px;
+      border: 1px solid #2b3f37;
+      padding: 14px;
+      box-shadow: 0 10px 35px rgba(10, 20, 16, 0.2);
+    }
+
+    .hero-card pre {
+      margin: 0;
+      overflow: auto;
+      font: 12px/1.35 "SF Mono", Menlo, Consolas, monospace;
+      white-space: pre;
+    }
+
+    .section {
+      padding: 18px 0 8px;
+    }
+
+    .section h2 {
+      margin: 0 0 10px;
+      font-size: clamp(24px, 3vw, 34px);
+      letter-spacing: -0.01em;
+    }
+
+    .section .lead {
+      margin: 0 0 18px;
+      color: var(--muted);
+      max-width: 74ch;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      min-height: 100%;
+    }
+
+    .card h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .steps {
+      display: grid;
+      gap: 10px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 30px 1fr;
+      gap: 10px;
+      align-items: start;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .step .n {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: #e6f4ef;
+      border: 1px solid #bfd8cf;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: #245445;
+    }
+
+    .step code {
+      font-family: "SF Mono", Menlo, Consolas, monospace;
+      font-size: 12px;
+      background: #eef3ef;
+      border: 1px solid #d3ddd6;
+      padding: 1px 5px;
+      border-radius: 6px;
+    }
+
+    .syntax-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .syntax-grid pre {
+      margin: 8px 0 0;
+      background: #fafdfb;
+      border: 1px solid #dbe5de;
+      border-radius: 8px;
+      padding: 8px;
+      overflow: auto;
+      font: 12px/1.35 "SF Mono", Menlo, Consolas, monospace;
+    }
+
+    .principles {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .principle {
+      background: linear-gradient(165deg, #f9fff8, #f2f8f4);
+      border: 1px solid #d4e2d8;
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .principle h3 { margin: 0 0 6px; font-size: 16px; }
+    .principle p { margin: 0; color: var(--muted); font-size: 14px; }
+
+    .playground {
+      margin-top: 18px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .play-header {
+      padding: 10px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .play-header h3 {
+      margin: 0 10px 0 2px;
+      font-size: 16px;
+    }
+
+    label { font-size: 12px; color: var(--muted); }
+
+    select, input[type="number"], button {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-size: 14px;
+    }
+
+    button { cursor: pointer; font-weight: 700; }
+
+    .play-body {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 1.08fr 1fr;
+      gap: 10px;
+      padding: 10px;
+      min-height: 720px;
+      height: 720px;
+    }
+
+    .pane {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+    }
+
+    .pane-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      border-bottom: 1px solid var(--line);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .error {
+      margin: 10px;
+      background: var(--error-bg);
+      color: var(--error);
+      border: 1px solid #fecdca;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 13px;
+      display: none;
+      white-space: pre-wrap;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      resize: none;
+      outline: none;
+      padding: 10px;
+      font: 13px/1.45 "SF Mono", Menlo, Consolas, monospace;
+    }
+
+    #wireInput {
+      min-height: 620px;
+    }
+
+    .outputs {
+      min-height: 0;
+      display: grid;
+      grid-template-rows: 1fr 1fr 1fr;
+      gap: 10px;
+      height: 100%;
+    }
+
+    pre {
+      margin: 0;
+      padding: 10px;
+      border-top: 1px solid var(--line);
+      overflow: auto;
+      font: 12px/1.35 "SF Mono", Menlo, Consolas, monospace;
+      white-space: pre;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-top: 1px solid var(--line);
+      min-height: 260px;
+    }
+
+    footer {
+      margin: 34px 0 24px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 1020px) {
+      .hero { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .syntax-grid { grid-template-columns: 1fr; }
+      .principles { grid-template-columns: 1fr; }
+      .play-body { grid-template-columns: 1fr; }
+      .play-body { height: auto; min-height: 0; }
+      #wireInput { min-height: 340px; }
+      .outputs { grid-template-rows: 280px 280px 240px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap nav-row">
+      <div class="logo">WireText <small>intent-first UI notation for teams and AIs</small></div>
+      <div class="nav-links">
+        <a href="#how">How To</a>
+        <a href="#syntax">Syntax</a>
+        <a href="#principles">Principles</a>
+        <a href="#playground">Playground</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="wrap">
+    <section class="hero">
+      <div>
+        <span class="eyebrow">Open Source Skill + Playground</span>
+        <h1>Sketch UI intent in text, then render ASCII or HTML instantly.</h1>
+        <p>
+          WireText helps teams and AIs communicate structure and interaction without collapsing into implementation details.
+          Inspired by Markdown, it is readable in a terminal, friendly in docs, and fast to iterate with teammates and AIs.
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#playground">Try Playground</a>
+          <a class="btn" href="#how">Read How-To</a>
+        </div>
+      </div>
+      <aside class="hero-card">
+<pre>=main
+  # Signup
+  ^email
+  ^password
+  [] "Remember me"
+  !Cancel | !!"Create account"
+
+[=aside 1/4 | =chat 3/4]
+  ...</pre>
+      </aside>
+    </section>
+
+    <section id="how" class="section">
+      <h2>How To Use It</h2>
+      <p class="lead">Start minimal and keep intent visible. Use sections for structure, rows for content, and ratios only where layout must be explicit.</p>
+      <div class="steps">
+        <article class="step">
+          <div class="n">1</div>
+          <div>Write a surface in plain text. Use <code>^field</code>, <code>!Action</code>, <code>[]</code>, and simple rows.</div>
+        </article>
+        <article class="step">
+          <div class="n">2</div>
+          <div>Use ratio sections only when layout matters: <code>=aside 1/6</code>, <code>=chat 5/6</code>.</div>
+        </article>
+        <article class="step">
+          <div class="n">3</div>
+          <div>Render to ASCII for quick sanity checks and HTML for richer preview.</div>
+        </article>
+      </div>
+    </section>
+
+    <section id="syntax" class="section">
+      <h2>Syntax Cheatsheet</h2>
+      <p class="lead">A compact subset carries most UI conversations.</p>
+      <div class="syntax-grid">
+        <article class="card">
+          <h3>Inputs and Actions</h3>
+<pre>^user_name
+^^ "Long notes"
+!Cancel
+!!"Create account"</pre>
+        </article>
+        <article class="card">
+          <h3>Choices and Links</h3>
+<pre>[] "Accept terms"
+() "Free" | () "Pro"
+_Help_
+i:search</pre>
+        </article>
+        <article class="card">
+          <h3>Layout</h3>
+<pre>[=aside 1/4 | =main 3/4]
+=header
+  # Title
+=main
+  ...</pre>
+        </article>
+        <article class="card">
+          <h3>Repeat and Tables</h3>
+<pre>...
+  ^name | !Edit
+
+| Name | Role |
+|------|------|
+| Jane | Admin |</pre>
+        </article>
+      </div>
+    </section>
+
+    <section id="principles" class="section">
+      <h2>Design Principles</h2>
+      <div class="principles">
+        <article class="principle">
+          <h3>Intent over implementation</h3>
+          <p>Section names are structure, not content. The notation helps teams and AIs align on what users need to see and do, not which framework to use.</p>
+        </article>
+        <article class="principle">
+          <h3>Simple output contract</h3>
+          <p>The renderer should be “good enough” and predictable. Preserve ratio borders and table pipes; avoid decorative complexity elsewhere.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="playground" class="section playground">
+      <div class="play-header">
+        <h3>Playground</h3>
+        <label>Example
+          <select id="exampleSelect"></select>
+        </label>
+        <label>ASCII Width
+          <input id="widthInput" type="number" min="60" step="1" value="120" />
+        </label>
+        <label><input id="autoRender" type="checkbox" checked /> Auto-render</label>
+        <button id="renderBtn" class="btn primary">Render</button>
+        <button id="shareBtn" class="btn">Copy Share URL</button>
+      </div>
+
+      <div class="play-body">
+        <section class="pane">
+          <div class="pane-head">WireText Input</div>
+          <div id="errorBox" class="error"></div>
+          <textarea id="wireInput" spellcheck="false"></textarea>
+        </section>
+
+        <section class="outputs">
+          <article class="pane">
+            <div class="pane-head">
+              <span>ASCII Output</span>
+              <button id="copyAsciiBtn" class="btn">Copy</button>
+            </div>
+            <pre id="asciiOut"></pre>
+          </article>
+
+          <article class="pane">
+            <div class="pane-head">
+              <span>HTML Preview</span>
+              <button id="openPreviewBtn" class="btn">Open in New Tab</button>
+            </div>
+            <iframe id="previewFrame" sandbox="allow-same-origin"></iframe>
+          </article>
+
+          <article class="pane">
+            <div class="pane-head">
+              <span>AST (JSON)</span>
+              <span>
+                <button id="copyAstBtn" class="btn">Copy</button>
+                <button id="downloadAstBtn" class="btn">Download</button>
+              </span>
+            </div>
+            <pre id="astOut"></pre>
+          </article>
+        </section>
+      </div>
+    </section>
+
+    <footer>WireText is designed for quick design conversations between teams and AIs, especially when a full UI renderer is unavailable.</footer>
+  </main>
+
+  <script src="./playground.js"></script>
+</body>
+</html>

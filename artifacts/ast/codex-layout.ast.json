@@ -1,0 +1,194 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "group",
+      "children": [
+        {
+          "type": "section",
+          "name": "aside",
+          "ratio": {
+            "n": 1,
+            "d": 6
+          },
+          "children": [
+            {
+              "type": "row",
+              "text": "i:new \"New thread\""
+            },
+            {
+              "type": "row",
+              "text": "i:clock \"Automations\""
+            },
+            {
+              "type": "row",
+              "text": "i:box \"Skills\""
+            },
+            {
+              "type": "row",
+              "text": "---"
+            },
+            {
+              "type": "row",
+              "text": "# Threads"
+            },
+            {
+              "type": "row",
+              "text": "i:folder misc"
+            },
+            {
+              "type": "row",
+              "text": "_Read wiretext skill documentation_ `(6m)`"
+            },
+            {
+              "type": "row",
+              "text": "_Activate wiretext skill_ `(7m)`"
+            },
+            {
+              "type": "row",
+              "text": "_Inspect new wiretext skill_ `(8m)`"
+            },
+            {
+              "type": "row",
+              "text": "i:folder lit"
+            },
+            {
+              "type": "row",
+              "text": "\"No threads\""
+            },
+            {
+              "type": "row",
+              "text": "i:folder howcaniprayforyou"
+            },
+            {
+              "type": "row",
+              "text": "\"No threads\""
+            },
+            {
+              "type": "row",
+              "text": "---"
+            },
+            {
+              "type": "row",
+              "text": "i:settings _Settings_"
+            }
+          ]
+        },
+        {
+          "type": "section",
+          "name": "section",
+          "ratio": {
+            "n": 5,
+            "d": 6
+          },
+          "children": [
+            {
+              "type": "group",
+              "children": [
+                {
+                  "type": "section",
+                  "name": "threads",
+                  "ratio": {
+                    "n": 1,
+                    "d": 4
+                  },
+                  "children": [
+                    {
+                      "type": "section",
+                      "name": "threads_header",
+                      "ratio": null,
+                      "children": [
+                        {
+                          "type": "row",
+                          "text": "# Open | i:filter"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "section",
+                      "name": "threads_list",
+                      "ratio": null,
+                      "children": [
+                        {
+                          "type": "row",
+                          "text": "_Read wiretext skill documentation_ `(misc)`"
+                        },
+                        {
+                          "type": "row",
+                          "text": "_Activate wiretext skill_ `(misc)`"
+                        },
+                        {
+                          "type": "row",
+                          "text": "_Inspect new wiretext skill_ `(misc)`"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "name": "chat",
+                  "ratio": {
+                    "n": 3,
+                    "d": 4
+                  },
+                  "children": [
+                    {
+                      "type": "section",
+                      "name": "chat_header",
+                      "ratio": null,
+                      "children": [
+                        {
+                          "type": "row",
+                          "text": "# \"Read wiretext skill documentation\" | misc | \"Model: GPT-5 Codex\" | `(Default mode)` | _Open in repo_"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "section",
+                      "name": "messages",
+                      "ratio": null,
+                      "children": [
+                        {
+                          "type": "row",
+                          "text": "\"now generate HTML from it and open it up in chrome\""
+                        },
+                        {
+                          "type": "row",
+                          "text": "\"I'll create a standalone HTML mock for that WireText sketch in /Users/jef/misc, then open it in Chrome.\""
+                        },
+                        {
+                          "type": "row",
+                          "text": "\"Created and opened the mock in Chrome.\""
+                        }
+                      ]
+                    },
+                    {
+                      "type": "section",
+                      "name": "composer",
+                      "ratio": null,
+                      "children": [
+                        {
+                          "type": "row",
+                          "text": "^^ \"Ask for follow-up changes\""
+                        },
+                        {
+                          "type": "row",
+                          "text": "[] \"Use plan mode\" | [] \"Run tools automatically\""
+                        },
+                        {
+                          "type": "row",
+                          "text": "!Attach | !!Send"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
